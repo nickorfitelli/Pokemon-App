@@ -4,6 +4,8 @@ import React,{useEffect,useState} from 'react'
 
 const PokeDisplay = ({pokemonName}) => {
 
+    
+
     //setPokemonData is a function, whenever called React renders again
    const  [pokemonData, setPokemonData] = useState()
 
