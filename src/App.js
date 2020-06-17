@@ -1,21 +1,30 @@
-import React from 'react';
-import PokeDisplay from './PokeDisplay'
-import SearchPoke from './SearchPoke'
+import React, { useState } from "react";
+import SearchPage from "./Search/SearchPage";
+import TitleBar from "./Components/TitleBar";
+import context from "./CollectionContext";
+import CollectionPage from "./Collection/CollectionPage";
+import DetailModal from "./DetailModal";
 
 function App() {
-  //get list of all pokemon
+	const contextData = {};
+	const [page, setPage] = useState("SearchPage");
+	contextData.collectionState = useState([]);
+	contextData.modalState = useState("");
 
-  return (
-    <div >
-      <h1>Pokedex</h1>
-      <SearchPoke parent={this}/>
-      <PokeDisplay pokemonName = "ditto"/>
-      <PokeDisplay pokemonName = "pikachu"/>
-      <PokeDisplay pokemonName = "charmander"/>
-
-      
-    </div>
-  );
+	return (
+		<context.Provider value={contextData}>
+			<div>
+				<TitleBar setPage={setPage} />
+				{contextData.modalState[0] !== "" ? (
+					<DetailModal pokemonName={contextData.modalState[0]} />
+				) : null}
+				{page === "SearchPage" ? <SearchPage /> : null}
+				{page === "BattlePage" ? <SearchPage /> : null}
+				{page === "GroceryPage" ? <SearchPage /> : null}
+				{page === "CollectionPage" ? <CollectionPage /> : null}
+			</div>
+		</context.Provider>
+	);
 }
 
 export default App;
