@@ -1,24 +1,17 @@
 import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import PokeDisplay from './PokeDisplay'
+import SearchPoke from './SearchPoke'
 
 function App() {
+  //get list of all pokemon
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div >
+      <h1>Pokedex</h1>
+      <input type ="text" placeholder="Enter Pokemon Name ..."/>
+      <button onClick = {SearchPoke}>Search</button> 
+      <PokeDisplay pokemonName = "ditto"/>
+      <PokeDisplay pokemonName = "pikachu"/>
+      <PokeDisplay pokemonName = "charmander"/>
     </div>
   );
 }
