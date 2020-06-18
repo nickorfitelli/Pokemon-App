@@ -1,12 +1,12 @@
 import React, { useEffect, useState, useContext } from "react";
 import context from "../CollectionContext";
 
-const DetailModal = ({ pokemonName, searchParam, setsearchParam }) => {
+const DetailModal = ({ pokemonName, searchParam, setSearchParam }) => {
 	//setPokemonData is a function, whenever called React renders again
 	const [pokemonData, setPokemonData] = useState();
 	const { collectionState, modalState } = useContext(context);
 	const [collection, setCollection] = collectionState;
-	const [modalText, setModalText] = modalState;
+	const [, setModalText] = modalState;
 
 	useEffect(() => {
 		(async () => {
@@ -48,7 +48,7 @@ const DetailModal = ({ pokemonName, searchParam, setsearchParam }) => {
 			const jsonResult2 = await result2.json();
 
 			pokeInfo.pokeDescription =
-				jsonResult2.flavor_text_entries[1].flavor_text;
+				jsonResult2.flavor_text_entries[0].flavor_text;
 
 			setPokemonData(pokeInfo);
 		})(); //defines function, immediately calls -> "iffy"
@@ -70,7 +70,7 @@ const DetailModal = ({ pokemonName, searchParam, setsearchParam }) => {
 			{pokemonData.pokeType.map((type, i) => {
 				return (
 					<div key={i} onClick={() => {
-						setsearchParam(type);
+						setSearchParam(type);
 						setModalText("")
 					}}>
 						{type}

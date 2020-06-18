@@ -1,10 +1,10 @@
-import React, { useState, useEffect, useContext } from "react";
+import React, { useContext } from "react";
 import PokeDisplay from "./../Components/PokeDisplay";
 import context from "../CollectionContext";
 
 const CollectionPage = () => {
 	const { collectionState } = useContext(context);
-	const [collection, setCollection] = collectionState;
+	const [collection] = collectionState;
 	console.log(collection);
 
 	let body =

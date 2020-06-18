@@ -2,43 +2,55 @@ import React, { useState, useEffect } from "react";
 import PokeDisplay from "./../Components/PokeDisplay";
 import SearchPoke from "./SearchPoke";
 
-// {
-// 	nextPage:
-// 	prevPage:
-// 	currUrl:
-// 	textToSearch:
-// 	typeToSearch:
-// }
-
-
-const SearchPage = ({searchParam, setsearchParam}) => {
-	//get list of all pokemon
+const SearchPage = ({
+	setSearchText,
+	setSearchMode,
+	searchText,
+	searchMode,
+}) => {
+	//get list of all poke.mon
 	const [currUrl, setCurrUrl] = useState("https://pokeapi.co/api/v2/pokemon");
 	const [nextUrl, setNextUrl] = useState(null);
 	const [prevUrl, setPrevUrl] = useState(null);
+
 	const [pokeNames, setPokeNames] = useState([]);
 
 	useEffect(() => {
 		(async () => {
 			//Fetch API data
-			if(searchParam.currUrl ){
-
+			if (searchText === "") {
+				const result = await fetch(currUrl);
+				if (!result.ok) {
+					return;
+				}
+				const jsonResult = await result.json();
+				setPokeNames(jsonResult.results.map((item) => item.name));
+				setNextUrl(jsonResult.next);
+				setPrevUrl(jsonResult.previous);
+			} else {
+				if (searchMode === "name") {
+					setPokeNames([searchText]);
+				} else {
+					const result = await fetch(
+						`https://pokeapi.co/api/v2/type/${searchText}`
+					);
+					if (!result.ok) {
+						return;
+					}
+					const jsonResult = await result.json();
+					console.log(jsonResult.pokemon.map((item) => item.name));
+					setPokeNames(
+						jsonResult.pokemon.map((item) => item.pokemon.name)
+					);
+				}
+				setNextUrl(null);
+				setPrevUrl(null);
 			}
-			const result = await fetch('https://pokeapi.co/api/v2/pokemon');
-
-			if (!result.ok) {
-				return;
-			}
-
-			const jsonResult = await result.json();
-			setPokeNames(jsonResult.results.map((item) => item.name));
-			setNextUrl(jsonResult.next);
-			setPrevUrl(jsonResult.previous);
 		})(); //defines function, immediately calls -> "iffy"
-	}, [searchParam]);
+	}, [searchText, searchMode, currUrl]);
 
 	const body =
-		searchParam === "" ? (
+		pokeNames.length > 0 ? (
 			<div>
 				<div style={myStyle}>
 					{pokeNames.map((x, i) => (
@@ -51,34 +63,46 @@ const SearchPage = ({searchParam, setsearchParam}) => {
 				<div style={inputAreaStyle}>
 					<div
 						className="button"
+						style={
+							prevUrl === null
+								? {cursor: "default" }
+								: {}
+						}
 						onClick={() => {
-							setCurrUrl(prevUrl);
+							if (prevUrl !== null) {
+								setCurrUrl(prevUrl);
+							}
 						}}
 					>
 						Previous
 					</div>
 					<div
 						className="button"
-						value="Next"
+						style={
+							nextUrl === null
+								? { cursor: "default" }
+								: {}
+						}
 						onClick={() => {
-							setCurrUrl(nextUrl);
+							if (nextUrl !== null) {
+								setCurrUrl(nextUrl);
+							}
 						}}
 					>
 						Next
 					</div>
 				</div>
 			</div>
-		) : (
-			<PokeDisplay pokemonName={searchParam} />
-		);
+		) : null;
 
 	return (
 		<div>
 			<SearchPoke
-				searchParam={searchParam}
-				setsearchParam={setsearchParam}
+				setSearchText={setSearchText}
+				setSearchMode={setSearchMode}
+				searchText={searchText}
+				searchMode={searchMode}
 			/>
-			
 			{body}
 		</div>
 	);

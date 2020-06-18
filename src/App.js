@@ -10,7 +10,8 @@ import "./main.css";
 function App() {
 	const contextData = {};
 	const [page, setPage] = useState("SearchPage");
-	const [searchParam, setsearchParam] = useState("");
+	const [searchText, setSearchText] = useState("");
+	const [searchMode, setSearchMode] = useState("name");
 	contextData.collectionState = useState([]);
 	contextData.modalState = useState("");
 
@@ -18,8 +19,8 @@ function App() {
 		<context.Provider value={contextData}>
 			{contextData.modalState[0] !== "" ? (
 				<DetailModal
-					searchParam={searchParam}
-					setsearchParam={setsearchParam}
+					setSearchText={setSearchText}
+					setSearchMode={setSearchMode}
 					pokemonName={contextData.modalState[0]}
 				/>
 			) : null}
@@ -27,8 +28,10 @@ function App() {
 				<TitleBar setPage={setPage} />
 				{page === "SearchPage" ? (
 					<SearchPage
-						searchParam={searchParam}
-						setsearchParam={setsearchParam}
+						setSearchText={setSearchText}
+						setSearchMode={setSearchMode}
+						searchText={searchText}
+						searchMode={searchMode}
 					/>
 				) : null}
 				{page === "BattlePage" ? <BattlePage /> : null}

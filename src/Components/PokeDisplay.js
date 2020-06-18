@@ -3,11 +3,12 @@ import context from "../CollectionContext";
 
 const PokeDisplay = ({ pokemonName, modalDisabled, style, ...rest }) => {
 	//setPokemonData is a function, whenever called React renders again
-	const [spriteUrl, setSpriteUrl] = useState();
+	const [spriteUrl, setSpriteUrl] = useState("");
 	const { modalState } = useContext(context);
-	const [modalText, setModalText] = modalState;
+	const [, setModalText] = modalState;
 
 	useEffect(() => {
+		setSpriteUrl("");
 		(async () => {
 			//Fetch API data
 			if (pokemonName === "") return;
@@ -34,7 +35,7 @@ const PokeDisplay = ({ pokemonName, modalDisabled, style, ...rest }) => {
 			<img src={spriteUrl} alt={pokemonName} />
 		</div>
 	) : (
-		<div {...rest}>Loading</div>
+		<div {...rest}>Loading...</div>
 	);
 };
 
