@@ -5,30 +5,31 @@ import context from "../CollectionContext";
 const CollectionPage = () => {
 	const { collectionState } = useContext(context);
 	const [collection, setCollection] = collectionState;
+	console.log(collection);
 
-	return "searchParam" === "" ? (
-		<div>
+	let body =
+		collection.length > 0 ? (
 			<div style={myStyle}>
 				{collection.map((x, i) => (
-					<PokeDisplay
-						onClick={(name) => {
-							//setsearchParam(name);
-						}}
-						pokemonName={x}
-						key={i}
-					/>
+					<PokeDisplay pokemonName={x} key={i} />
 				))}
 			</div>
-		</div>
-	) : (
-		<PokeDisplay detailed pokemonName={collection} onClick={() => {}} />
-	);
+		) : (
+			<div style={noPokemonStyle}>No Pokemon in your collection</div>
+		);
+	return <div >{body}</div>;
 };
 
 const myStyle = {
 	display: "grid",
 	gridTemplateColumns: "repeat(auto-fill, 300px)",
 	gap: "5px",
+};
+const noPokemonStyle = {
+	marginTop: "30px",
+	fontSize: "xx-large",
+	display: "grid",
+	placeContent: "center"
 };
 
 export default CollectionPage;

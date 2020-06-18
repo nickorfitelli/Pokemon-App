@@ -11,10 +11,6 @@ const TitleBar = ({setPage}) => {
         }}>Battle!</div>
 
         <div style={{cursor: "pointer"}} onClick = {() => {
-            setPage("GroceryPage")
-        }}>Grocery List</div>
-
-        <div style={{cursor: "pointer"}} onClick = {() => {
             setPage("CollectionPage")
         }}>My Collection</div>
 
@@ -25,7 +21,7 @@ const myStyle = {
     backgroundColor: "grey",
     color: "white",
     display: "grid",
-    gridTemplateColumns: "min-content auto min-content min-content min-content",
+    gridTemplateColumns: "min-content auto min-content min-content",
     placeItems: "center",
     padding: "10px",
     gap: "30px",

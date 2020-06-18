@@ -1,10 +1,18 @@
 import React, { useState, useEffect } from "react";
 import PokeDisplay from "./../Components/PokeDisplay";
-import SearchPoke from "./SearchBar";
+import SearchPoke from "./SearchPoke";
 
-const SearchPage = () => {
+// {
+// 	nextPage:
+// 	prevPage:
+// 	currUrl:
+// 	textToSearch:
+// 	typeToSearch:
+// }
+
+
+const SearchPage = ({searchParam, setsearchParam}) => {
 	//get list of all pokemon
-	const [searchParam, setsearchParam] = useState("");
 	const [currUrl, setCurrUrl] = useState("https://pokeapi.co/api/v2/pokemon");
 	const [nextUrl, setNextUrl] = useState(null);
 	const [prevUrl, setPrevUrl] = useState(null);
@@ -13,7 +21,10 @@ const SearchPage = () => {
 	useEffect(() => {
 		(async () => {
 			//Fetch API data
-			const result = await fetch(currUrl);
+			if(searchParam.currUrl ){
+
+			}
+			const result = await fetch('https://pokeapi.co/api/v2/pokemon');
 
 			if (!result.ok) {
 				return;
@@ -24,7 +35,7 @@ const SearchPage = () => {
 			setNextUrl(jsonResult.next);
 			setPrevUrl(jsonResult.previous);
 		})(); //defines function, immediately calls -> "iffy"
-	}, [currUrl]);
+	}, [searchParam]);
 
 	const body =
 		searchParam === "" ? (
@@ -32,35 +43,33 @@ const SearchPage = () => {
 				<div style={myStyle}>
 					{pokeNames.map((x, i) => (
 						<PokeDisplay
-							onClick={(name) => {
-								setsearchParam(name);
-							}}
 							pokemonName={x}
-							key={i}
+							key={i} //if you make an array in JSX you need to add a key
 						/>
 					))}
 				</div>
-				<input
-					type="button"
-					value="Previous"
-					onClick={() => {
-						setCurrUrl(prevUrl);
-					}}
-				/>
-				<input
-					type="button"
-					value="Next"
-					onClick={() => {
-						setCurrUrl(nextUrl);
-					}}
-				/>
+				<div style={inputAreaStyle}>
+					<div
+						className="button"
+						onClick={() => {
+							setCurrUrl(prevUrl);
+						}}
+					>
+						Previous
+					</div>
+					<div
+						className="button"
+						value="Next"
+						onClick={() => {
+							setCurrUrl(nextUrl);
+						}}
+					>
+						Next
+					</div>
+				</div>
 			</div>
 		) : (
-			<PokeDisplay
-				detailed
-				pokemonName={searchParam}
-				onClick={() => {}}
-			/>
+			<PokeDisplay pokemonName={searchParam} />
 		);
 
 	return (
@@ -69,15 +78,25 @@ const SearchPage = () => {
 				searchParam={searchParam}
 				setsearchParam={setsearchParam}
 			/>
+			
 			{body}
 		</div>
 	);
 };
 
+const inputAreaStyle = {
+	display: "grid",
+	placeContent: "center",
+	gridTemplateColumns: "200px 200px",
+	gap: "10px",
+};
+
 const myStyle = {
 	display: "grid",
 	gridTemplateColumns: "repeat(auto-fill, 300px)",
+	placeContent: "center",
 	gap: "5px",
+	padding: "5px",
 };
 
 export default SearchPage;
