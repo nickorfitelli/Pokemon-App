@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useContext } from "react";
 import context from "../CollectionContext";
 
-const DetailModal = ({ pokemonName, searchParam, setSearchParam }) => {
+const DetailModal = ({ pokemonName, setSearchText, setSearchMode }) => {
 	//setPokemonData is a function, whenever called React renders again
 	const [pokemonData, setPokemonData] = useState();
 	const { collectionState, modalState } = useContext(context);
@@ -69,8 +69,9 @@ const DetailModal = ({ pokemonName, searchParam, setSearchParam }) => {
 			<div>Type: </div>
 			{pokemonData.pokeType.map((type, i) => {
 				return (
-					<div key={i} onClick={() => {
-						setSearchParam(type);
+					<div style={{cursor:"pointer"}} key={i} onClick={() => {
+						setSearchText(type);
+						setSearchMode("type");
 						setModalText("")
 					}}>
 						{type}
