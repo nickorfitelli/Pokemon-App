@@ -35,7 +35,7 @@ const PokeDisplay = ({ pokemonName, modalDisabled, style, ...rest }) => {
 			<img src={spriteUrl} alt={pokemonName} />
 		</div>
 	) : (
-		<div {...rest}>Loading...</div>
+		<div style={{ border: "1px solid black" }} {...rest}>Loading...</div>
 	);
 };
 
